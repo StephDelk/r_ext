@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:r_ext/src/constants/breakpoints.dart';
+
+import '../enum/device_screen_type.dart';
 
 part './parts/_dialog_route.dart';
 
@@ -7,6 +10,28 @@ extension ContextExt on BuildContext {
 
   double get screenWidth => mediaQuerySize.width;
   double get screenHeight => mediaQuerySize.height;
+  double screenWidthPercentage({double percentage = 1}) =>
+      screenWidth * percentage;
+  double screenHeightPercentage({double percentage = 1}) =>
+      screenHeight * percentage;
+
+  DeviceScreenType get deviceType {
+    double deviceWidth = mediaQuerySize.shortestSide;
+
+    if (deviceWidth > kBp4k) {
+      return DeviceScreenType.largeDesktop;
+    }
+
+    if (deviceWidth > kBpDesktop) {
+      return DeviceScreenType.desktop;
+    }
+
+    if (deviceWidth > kBpTablet) {
+      return DeviceScreenType.tablet;
+    }
+
+    return DeviceScreenType.mobile;
+  }
 
   double get headerText => screenWidth * 0.06;
   double get largeText => screenWidth * 0.05;
